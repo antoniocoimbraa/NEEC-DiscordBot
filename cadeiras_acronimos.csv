@@ -1,0 +1,103 @@
+Nome da cadeira,Acronimo usado na guild
+Álgebra Linear,AL
+Cálculo Diferencial e Integral I,CDI I
+Gestão,GES
+Química,QUI
+Sistemas Digitais,SD
+Portfólio Meec,PMeec
+Programação,PROG
+Cálculo Diferencial e Integral II,CDI II
+Arquitectura de Computadores,AComp
+Mecânica e Ondas,MO
+Algoritmos e Estrutura de Dados,AED
+Análise Complexa e Equações Diferenciais,ACED
+Análise de Circuitos,ACir
+Termodinâmica e Estrutura da Matéria,TERMO
+Electromagnetismo e Óptica,EO
+Electrotecnia Teórica,ET
+Fundamentos de Electrónica,FE
+Sinais e Sistemas,SS
+Probabilidades e Estatística,PE
+Matemática Computacional,MC
+Electrónica I,E1
+Controlo,CONT
+Fundamentos de Energia Eléctrica,FEE
+Fundamentos de Telecomunicações,FTEL
+Electrónica II,E2
+Instrumentação e Medidas,IM
+Modelação e Simulação,MSIM
+Propagação e Radiação de Ondas Electromagnéticas,PROE
+Programação de Sistemas,PSIS
+Redes de Computadores e Internet,RCI
+Redes e Instalações Eléctricas,RIE
+Projecto de Sistemas Digitais,PSD
+Redes Móveis e Sem Fios,RMSF
+Arquteturas Avançadas de Computadores,AAC
+Algoritmia e Desempenho em Redes de Computadores,ADRC
+Arquitectura de Sistemas de Internet,ASINT
+Computação Paralela e Distribuída,CPD
+Criptografia e Segurança das Comunicações,CSC
+Co-Projeto Hw/Sw,HwSw
+Optimização e Algoritmos,OA
+Programação Orientada por Objectos,POO
+Redes e Serviços Internet,RSI
+Sistemas Computacionais Embebidos,SCE
+Sistemas Embebidos em Rede,SER
+Sistemas de Informação e Bases de Dados,SIBD
+Segurança Informática em Redes e Sistemas,SIRS
+Sistemas Electrónicos de Processamento de Sinal,SEPS
+Instrumentação Suportada em Computadores Pessoais,ISCP
+Sistemas Integrados Analógicos,SIA
+Electrónica de Computadores,EComp
+Electrónica Rápida,ER
+Filtros Analógicos e Digitais,FAD
+Microelectrónica,Microelectronics
+Optoeletrónica,Opto
+Sensores e Atuadores,SA
+Análise de Redes,ARed
+Conversão Electrónica e Armazenamento de Energia,CEAE
+Protecções e Automação em Sistemas de Energia,PESE
+Alta Tensão,AT
+Accionamentos e Veículos Eléctricos,AVE
+Conversores Comutados para Energias Renováveis,CCER
+Controlo e Optimização de Sistemas de Energia,COSE
+Electrónica de Energia,EE
+Economia e Mercados de Energia,EME
+Energias Renováveis e Produção Descentralizada,ERPD
+Máquinas Eléctricas,MEle
+Processamento e Consumo de Energia Eléctrica,PCEE
+Regime Transitório em Redes,RTR
+Sistemas de Alimentação Autónomos,SAA
+Sistemas Elétricos Integrados de Tecnologia Solar Fotovoltaica,SEITSF
+Aprendizagem Automática,AAut
+Sistemas de Controlo Distribuído em Tempo Real,SCDTR
+Automação de Processos Industriais,APInd
+Controlo por Computador,CComp
+Controlo em Espaço de Estados,CEE
+Inteligência Artificial e Sistemas de Decisão,IASD
+Processamento Digital de Sinais,PDS
+Processamento da Fala,PF
+Processamento de Imagem e Visão,PIV
+Robótica,Rob
+Sistemas Autónomos,SAut
+Antenas,Ant
+Sistemas de Telcomunicações,STel
+Comunicação de Áudio e Vídeo,CAV
+Compressão e Codificação de Dados,CCD
+Fotónica,Fot
+Microondas,Microo
+Radiopropagação,RP
+Redes de Telecomunicações,RT
+Sistemas de Comunicações Móveis,SCM
+Sistemas de Telcomunicações por Fibra Óptica,STFO
+Sistemas de Telecomunicações Via Rádio,STVR
+Transmissão Digital,TDig
+Empreendedorismo,EITT
+Inovação e Transferência de Tecnologia,EITT
+Gestão de Projectos de Engenharia,GPE
+Bioquímica e Biologia Molecular,BBM
+Bioinformática/Biologia Computacional,BC
+Processos de Engenharia de Química e Biológica I,PEQB1
+Genómica Funcional e Bioinformática,GFB
+Modelação e Controlo de Sistemas de Manufactura,MCSM
+Electrónica de Potência,EP
