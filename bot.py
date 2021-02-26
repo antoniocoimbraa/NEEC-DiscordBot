@@ -208,7 +208,7 @@ async def cadeiras(ctx):
 
     url = fenix_client.get_authentication_url()
     await member.create_dm()
-    await member.dm_channel.send('O teu username do Discord não foi registado corretamente. Verifica se escreveste bem. Usa o seguinte link para tentares novamente')
+    await member.dm_channel.send('O teu username do Discord não foi registado corretamente. Verifica se escreveste bem. Usa o seguinte link para tentares novamente\nAtenção: Se mudaste recentemente o teu username do Discord, tens que fazer a autenticação de novo!!')
     await member.dm_channel.send(url)
 
     channel = bot.get_channel(813909050923941938)

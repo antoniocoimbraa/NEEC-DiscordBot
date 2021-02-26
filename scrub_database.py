@@ -9,18 +9,28 @@ session = Session()
 
 users = session.query(discordUser).all()
 for x in users:
-    if (x.discordUsername == "AntonioC#1021"):
-        print (x.discordUsername)
-        session.delete(x)
-        session.commit()
+    print (x.discordUsername)
+    
+
+#    # if (x.discordUsername == "GoddessAsuna#7207"):
+#         print (x.discordUsername)
+#         print (x.access_token)
+#         print (x.refresh_token)
+#         print (x.token_expires)
+#         print (x.first_code)
+#    # if (x.discordUsername == "Beatrizpereira#1842"):
+    #    print (x.discordUsername)
+        # print (x.access_token)
+        # print (x.refresh_token)
+        # print (x.token_expires)
+        # print (x.first_code)
 
 
-
-    if  'AntónioC' in x.discordUsername[:-2]:
-        print('hey')
-        print(x.discordUsername)
-        session.delete(x)
-        session.commit()
+ #   if  "EvolutionProject" in x.discordUsername[:-2]:
+  #      print('hey')
+   #     print(x.discordUsername)
+    #    session.delete(x)
+     #   session.commit()
     
 
 
