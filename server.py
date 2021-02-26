@@ -65,7 +65,7 @@ class StaticServer(BaseHTTPRequestHandler):
         session.add(user)
         session.commit()
 
-        message = 'O seu username foi gravado. Pode fechar esta janela.'
+        message = 'Boa! Agora só falta usar o comando !cadeiras e terá acesso a tudo!!'
 
         self.send_response(200)
 

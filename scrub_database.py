@@ -11,16 +11,16 @@ users = session.query(discordUser).all()
 for x in users:
     if (x.discordUsername == "AntonioC#1021"):
         print (x.discordUsername)
-        #session.delete(x)
-        #session.commit()
+        session.delete(x)
+        session.commit()
 
 
 
-    if  'AntonioC' in x.discordUsername[:-2]:
+    if  'AntónioC' in x.discordUsername[:-2]:
         print('hey')
         print(x.discordUsername)
-        #session.delete(x)
-        #session.commit()
+        session.delete(x)
+        session.commit()
     
 
 
