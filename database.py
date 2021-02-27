@@ -1,19 +1,20 @@
-#database.py
+# database.py
 
-from sqlalchemy import create_engine   
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import Column, String, Integer, Table, ForeignKey, Boolean
+from sqlalchemy import Column, String, Integer, Table, ForeignKey, Boolean, insert
 
 engine = create_engine('postgresql://usr:pass@localhost:5432/sqlalchemy')
 Session = sessionmaker(bind=engine)
 Base = declarative_base()
 
-#Database -------------------------------
+# Database -------------------------------
+
 
 class discordUser(Base):
     __tablename__ = "discordUsers"
-    
+
     id = Column(Integer, primary_key=True)
     discordUsername = Column('discordUsername', String)
     access_token = Column('access_token', String)
@@ -27,7 +28,3 @@ class discordUser(Base):
         self.refresh_token = refresh_token
         self.token_expires = token_expires
         self.first_code = first_code
-
-
-
-
