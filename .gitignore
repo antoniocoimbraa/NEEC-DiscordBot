@@ -133,3 +133,6 @@ dmypy.json
 .vscode
 nohup.out
 fenixedu.ini 
+
+#ficheiros de teste
+db_test.py
