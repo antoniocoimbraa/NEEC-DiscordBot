@@ -50,40 +50,72 @@ print("Step2")
 # , {"discordUsername": u, "access_token": None,"refresh_token": None, "token_expires": None, "first_code": code})
 # session.add(user)
 # session.commit()
+#users = session.query(discordUser).all()
+# for x in users:
+#    if (x.discordUsername == "teste2"):
+#        print(x.id)
+#        print(x.discordUsername)
+#        print(x.access_token)
+#        print(x.refresh_token)
+#        print(x.token_expires)
+#        print(x.first_code)
+
+print("Clean")
+print("Formatação MAL")
+cursor.execute('SELECT id,"discordUsername" FROM "discordUsers" EXCEPT (SELECT id,"discordUsername" FROM "discordUsers" WHERE "discordUsername" like %(parm)s);', {
+    "parm": '%#____'})
+result = cursor.fetchall()
+i = 0
+for x in result:
+    print(i)
+    print(x)
+    i += 1
+    # print("Corrigido")
+    # print(x.discordUsername)
+
+
+print("Formatação correta")
+cursor.execute('SELECT id,"discordUsername" FROM "discordUsers" WHERE "discordUsername" like %(parm)s;', {
+    "parm": '%#____'})
+result = cursor.fetchall()
+i = 0
+for x in result:
+    print(i)
+    print(x)
+    i += 1
+print("Finish")
+
+print("\nReparo!")
 users = session.query(discordUser).all()
 for x in users:
-    if (x.discordUsername == "teste2"):
+    if (x.id == 5170):
         print(x.id)
-        print(x.discordUsername)
         print(x.access_token)
         print(x.refresh_token)
         print(x.token_expires)
         print(x.first_code)
+        print("Antes")
+        print(x.discordUsername)
+        print("Depois")
+        print(str(x.discordUsername[:-2]))
+        print("Confirmacao")
+        print(str(x.discordUsername[:-4]))
 
-print("Clean")
-print("Formatação MAL")
-cursor.execute('SELECT "discordUsername" FROM "discordUsers" EXCEPT (SELECT "discordUsername" FROM "discordUsers" WHERE "discordUsername" like %(parm)s);', {
-    "parm": '%#____'})
-result = cursor.fetchall()
-i = 0
-for x in result:
-    print(i)
-    print(x)
-    i += 1
+print("\nAgora um MAC!")
+for x in users:
+    if (x.id == 5185):
+        print(x.id)
+        print(x.access_token)
+        print(x.refresh_token)
+        print(x.token_expires)
+        print(x.first_code)
+        print("Antes")
+        print(x.discordUsername)
+        print("Depois")
+        print(str(x.discordUsername[:-2]))
+        print("Confirmacao")
+        print(str(x.discordUsername[:-4]))
 
-
-print("Formatação correta")
-cursor.execute('SELECT "discordUsername" FROM "discordUsers" WHERE "discordUsername" like %(parm)s;', {
-    "parm": '%#____'})
-result = cursor.fetchall()
-i = 0
-for x in result:
-    print(i)
-    print(":")
-    print(x)
-    print("\n")
-    i += 1
-print("Finish")
 #    # if (x.discordUsername == "GoddessAsuna#7207"):
 #         print (x.discordUsername)
 #         print (x.access_token)
