@@ -46,15 +46,62 @@ class StaticServer(BaseHTTPRequestHandler):
 
             return
 
+        # contar o número de "#" e guardar a posição do último em pos
+        cnt = 0
+        pos = -1
+        existe = False
+        for caracter in u:
+            if (caracter == "#"):
+                pos = cnt
+                existe = True
+            cnt += 1    
+# or not u[-4:].isdigit()
+        
+        # cortar a string 4 posições depois do último "#"
+
+        u = u[:(pos + 5)]
+    
+        print(len(u))
+
+        #se não existir cardinal ou se os 4 últimos caracteres não forem números, o username foi mal inserido
+        if not existe or not u[-4:].isdigit():
+            message = 'O seu usarname do Discord termina com um # seguido de 4 dígitos. Por favor verifique se escreveu bem e tente novamente.'
+
+            self.send_response(200)
+
+            self.send_header('Content-Type',
+                            'text/plain; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(message.encode('utf-8'))
+
+            return
+
+        # verificar se o tamanho excede 32 caracteres + #1234 = 37
+
+        if (len(u) >= 37 or len(u)< 7):
+            message = 'O username que inseriu não é permitido pelo Discord. Por favor verifique se escreveu bem e tente novamente.'
+
+            self.send_response(200)
+
+            self.send_header('Content-Type',
+                            'text/plain; charset=utf-8')
+            self.end_headers()
+            self.wfile.write(message.encode('utf-8'))
+
+            return
+
+
         # verificar se já está na database, e eleminá-lo nesse caso
         users = session.query(discordUser).all()
         for x in users:
             # print(len(str(x.discordUsername[:-2])))
             # print(len(str(u[:-2])))
             # print(x.discordUsername)
-            if((str(x.discordUsername[:-2]) == str(u[:-2]))):
+            if(str(x.discordUsername) == str(u) or str(x.discordUsername) == str(u)):
                 print('igual')
+                print(x)
                 session.delete(x)
+                session.commit()
 
         # print (u)
         #user = discordUser(u, None, None, None, code)
@@ -64,10 +111,22 @@ class StaticServer(BaseHTTPRequestHandler):
         connection = engine.raw_connection()
         cursor = connection.cursor()
 
-        result = cursor.execute('INSERT INTO "discordUsers" VALUES (%(id)s,%(du)s,%(at)s,%(rt)s,%(te)s,%(fc)s);', {
-                                "id": 10001, "du": u, "at": None, "rt": None, "te": None, "fc": code})
-        connection.commit()
-        cursor.close()
+        # para encontrar o maior id
+        cursor.execute('SELECT id FROM "discordUsers" WHERE id >= all (SELECT id FROM "discordUsers")')
+        result = cursor.fetchone()
+
+        for x in result:
+            
+            
+            var = x
+            var += 1
+            cursor.execute('INSERT INTO "discordUsers" VALUES (%(id)s,%(du)s,%(at)s,%(rt)s,%(te)s,%(fc)s);', {
+                                "id": var, "du": u, "at": None, "rt": None, "te": None, "fc": code})
+            connection.commit()
+            cursor.close()
+
+
+        
 
         message = 'Boa! Agora só falta usar o comando !cadeiras e terá acesso a tudo!!'
 
