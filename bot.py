@@ -72,14 +72,20 @@ async def get_new_url(ctx):
 
 @bot.command(name='cadeiras', help='Este comando dá-te acesso aos canais das cadeiras nas quais estás inscrito.')
 async def cadeiras(ctx):
+    print("oi")
+
     #delete da mensagem e ir buscar o autor do comando
     message = ctx.message
     await message.delete(delay=None)
 
     member = ctx.author   
     users = session.query(discordUser).all()
+    print(member)
+  
     for x in users:
-        if(str(x.discordUsername[:-2]) == str(member)):
+        print("oi")
+        print(x)
+        if(str(x.discordUsername) == str(member)):
             print("Estás na base de dados")
 
             #verificar se já existe este discordUsername já tem codigos de acesso na Database
@@ -160,8 +166,9 @@ async def cadeiras(ctx):
                 r = requests.post(f"https://fenix.tecnico.ulisboa.pt/oauth/access_token?client_id=1132965128044744&client_secret=UceVvflDH0knsARwostsUag1w/UqU5Y8LCKTs2u5aX1Zwa0BcLdSkPpapR7XxbYMyP2MCpZVJ2VKz3Ui1w4yGg==&redirect_uri=http://51.132.30.72:80/&code={code}&grant_type=authorization_code")
                 
                 res = json.loads(r.text)
+                print(res)
                 user = User(res['access_token'], res['refresh_token'], res['expires_in'])
-                #print(user)
+                print(user)
                 curriculum = fenix_client.get_person_curriculum(user)
                 cadeiras = fenix_client.get_person_courses(user)
                 person = fenix_client.get_person(user)
@@ -176,6 +183,14 @@ async def cadeiras(ctx):
                 roles = guild.roles
 
                 table = pd.read_csv('cadeiras_acronimos.csv')
+
+                #remover cadeiras do semestre passado
+                for kk in range(len(table['Acronimo usado na guild'])):
+                    for role in ctx.message.author.roles:
+                        if (table['Acronimo usado na guild'][kk]) == str(role):
+                            await member.remove_roles(role, reason=None, atomic=True)
+
+                            
                 for i in range(len(cadeiras['enrolments'])):
                     for k in range(len(table['Nome da cadeira'])):
                         if cadeiras['enrolments'][i]['name'] == table['Nome da cadeira'][k]:
