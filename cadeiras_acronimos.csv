@@ -32,7 +32,7 @@ Redes de Computadores e Internet,RCI
 Redes e Instalações Eléctricas,RIE
 Projecto de Sistemas Digitais,PSD
 Redes Móveis e Sem Fios,RMSF
-Arquteturas Avançadas de Computadores,AAC
+Arquitecturas Avançadas de Computadores,AAC
 Algoritmia e Desempenho em Redes de Computadores,ADRC
 Arquitectura de Sistemas de Internet,ASINT
 Computação Paralela e Distribuída,CPD
@@ -53,7 +53,7 @@ Electrónica Rápida,ER
 Filtros Analógicos e Digitais,FAD
 Microelectrónica,Microelectronics
 Optoeletrónica,Opto
-Sensores e Atuadores,SA
+Sensores e Actuadores,SA
 Análise de Redes,ARed
 Conversão Electrónica e Armazenamento de Energia,CEAE
 Protecções e Automação em Sistemas de Energia,PESE
@@ -92,8 +92,7 @@ Sistemas de Comunicações Móveis,SCM
 Sistemas de Telcomunicações por Fibra Óptica,STFO
 Sistemas de Telecomunicações Via Rádio,STVR
 Transmissão Digital,TDig
-Empreendedorismo,EITT
-Inovação e Transferência de Tecnologia,EITT
+"Empreendedorismo, Inovação e Transferência de Tecnologia",EITT
 Gestão de Projectos de Engenharia,GPE
 Bioquímica e Biologia Molecular,BBM
 Bioinformática/Biologia Computacional,BC
