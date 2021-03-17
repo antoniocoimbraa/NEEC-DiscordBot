@@ -51,7 +51,7 @@ async def on_member_join(member):
     url = fenix_client.get_authentication_url()
     await member.dm_channel.send(f'Olá {member.name}, Sê bem-vindo ao servidor de MEEC. Clica neste link para aproveitares esta experiência ao máximo! Não te esqueças de inserir o teu username no formato "username#XXXX", com os 4 dígitos associados à tua conta!!!')
     await member.dm_channel.send(url)
-    await member.dm_channel.send('Depois de te registares, dirige-te ao canal #bot-commands e insere o comando "!cadeiras" para teres acesso aos teus canais!')
+    await member.dm_channel.send('Depois de te registares, dirige-te ao canal #bot-commands e insere o comando `!cadeiras` para teres acesso aos teus canais!')
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -279,7 +279,7 @@ async def cadeiras(ctx):
 
 
 
-@bot.command(name='remove', help='Este comando retira-te o acesso ao canal de uma cadeira')
+@bot.command(name='remove', help='Este comando retira-te o cargo associado a uma cadeira')
 async def remove_cadeira(ctx, *args):
     message = ctx.message
     await message.delete(delay=None)
@@ -365,7 +365,7 @@ async def remove_cadeira(ctx, *args):
 #                 print("end")
 
 @bot.command()
-@commands.has_role('EITT')
+@commands.has_role('Admin')
 async def auth(ctx):
     print("lets start")
 
@@ -377,53 +377,31 @@ async def auth(ctx):
 
     users = session.query(discordUser).all()
     # members = message.guild.members
-
-    total_de_membros = 0
-    async for member in guild.fetch_members(limit=None):
-        total_de_membros += 1
-    print(total_de_membros)
-
-
-    members_with_code = 0
-    members_with_no_code = 0
-    async for member in guild.fetch_members(limit=None):
-        #print(member)
-        for x in users:
-            if(str(x.discordUsername) == str(member)):
-                #verificar se já existe este discordUsername já tem codigos de acesso na Database
-                if x.access_token != None:
-                    print(f'{member} tem tokens')
-                    members_with_code += 1
-
-    async for member in guild.fetch_members(limit=None):
-        #print(member)
-        for x in users:
-            if(str(x.discordUsername) == str(member)):
-                #verificar se já existe este discordUsername já tem codigos de acesso na Database
-                if x.access_token == None:
-                    print(f'{member} não tem códigos de acesso na db')
-                    members_with_no_code += 1
     
-    novo_membro = 0
-    role = discord.utils.find(lambda r: r.name == "NovoMembro", guild.roles)
+    users = session.query(discordUser).all()
+    print(users.discordUsername)
+ 
+
+
     async for member in guild.fetch_members(limit=None):
-        if role in member.roles:
-            print(f'{member} é NovoMembro')
-            novo_membro += 1
-            
+        if member.name in users.discordUsername:
+            print(f"{member.name} está na base de dados")
 
 
-    print(f"Membros com códigos de acesso: {members_with_code}")  
-    print(f"Membros sem códigos de acesso: {members_with_no_code}")
-    total = members_with_code + members_with_no_code
-    print(f"Total de membros na Database: {total}") 
-    # Total global = este total + número de NewMembers
-    total_global =  total + novo_membro
-    print(f"Total global de membros: {total_global}")
-         
+
     print("end")
 
+
+
+
+
+
+
+
+
+
 @bot.command()
+@commands.has_role('Admin')
 async def escreve(ctx):
     print("lets start")
 
