@@ -25,12 +25,16 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 GUILD = os.getenv('DISCORD_GUILD')
 #GUILD = os.getenv('CLIENT_SECRET')
 
-client = discord.Client()
+
+
+intents = discord.Intents(messages=True, members=True)
+client = commands.Bot(command_prefix=commands.when_mentioned_or('!'), intents=intents)
 
 
 config = fenixedu.FenixEduConfiguration.fromConfigFile()
 fenix_client = fenixedu.FenixEduClient(config)
 
+# bot = commands.Bot(command_prefix='!', intents=intents)
 bot = commands.Bot(command_prefix='!')
 
 id_cadeiras = dict()
@@ -39,6 +43,9 @@ id_cadeiras = dict()
 @bot.event
 async def on_ready():
     print(f'{bot.user} conectou-se ao Discord!')
+
+    meec_server = bot.get_guild(705045833451700254)
+    print(meec_server)
 
 
 @bot.event
@@ -92,9 +99,10 @@ async def cadeiras(ctx):
                 #ou seja, se já tiver criado o seu user do fénix, tenho que usar esses códigos para criar novo objeto user
 
                 r = requests.post(f'https://fenix.tecnico.ulisboa.pt/oauth/refresh_token?client_id=1132965128044744&client_secret=UceVvflDH0knsARwostsUag1w/UqU5Y8LCKTs2u5aX1Zwa0BcLdSkPpapR7XxbYMyP2MCpZVJ2VKz3Ui1w4yGg==&refresh_token={x.refresh_token}&grant_type=refresh_token')
-  
                 res = json.loads(r.text)
+                print(res)
                 user = User(res['access_token'], x.refresh_token, res['expires_in'])
+                print(user)
 
                 x.access_token = res['access_token']
                 x.token_expires = res['expires_in']
@@ -141,6 +149,15 @@ async def cadeiras(ctx):
                             for j in range(len(roles)):
                                 if roles[j].name == table['Acronimo usado na guild'][k]:
                                     await member.add_roles(roles[j], reason=None, atomic=True)
+                #dar o role de AComp
+                for i in range(len(cadeiras['attending'])):
+                    if (cadeiras['attending'][i]['name']) == "Arquitectura de Computadores":
+                        await member.create_dm()
+                        await member.dm_channel.send("Concedido acesso a AComp")
+                        for j in range(len(roles)):
+                            if roles[j].name == "AComp":
+                                await member.add_roles(roles[j], reason=None, atomic=True)
+
 
                 for l in range(len(roles)):
                     if (curriculum[0]['start'][-2:] == roles[l].name[:2]):
@@ -189,12 +206,14 @@ async def cadeiras(ctx):
                 x.token_expires = res['expires_in']
                 session.commit()
 
-                # verificar se a pessoa pertence ao curso de MEEC
-                print(curriculum[0]['degree']['acronym'])
-                if curriculum[0]['degree']['acronym'] != "MEEC":
+                 # verificar se a pessoa pertence ao curso de MEEC
+                belongs = False
+                for m in range(len(curriculum)):
+                    if curriculum[m]['degree']['acronym'] == "MEEC":
+                        belongs = True
+                if not belongs:
                     channel = bot.get_channel(705090002261901332)
                     await channel.send(f"{member} não é de MEEC... vai levar facada ఠ_ఠ")
-
                     await member.create_dm()
                     await member.dm_channel.send("O seu usuário do fénix não está inscrito como aluno no curso de MEEC no IST\nFoi enviada uma notificação aos membros do NEECIST, e entraremos em contacto consigo o mais rapidamente possível.")
                     return
@@ -220,6 +239,14 @@ async def cadeiras(ctx):
                             for j in range(len(roles)):
                                 if roles[j].name == table['Acronimo usado na guild'][k]:
                                     await member.add_roles(roles[j], reason=None, atomic=True)
+                #dar o role de AComp
+                for i in range(len(cadeiras['attending'])):
+                    if (cadeiras['attending'][i]['name']) == "Arquitectura de Computadores":
+                        await member.create_dm()
+                        await member.dm_channel.send("Concedido acesso a AComp")
+                        for j in range(len(roles)):
+                            if roles[j].name == "AComp":
+                                await member.add_roles(roles[j], reason=None, atomic=True)
                 for l in range(len(roles)):
                     if (curriculum[0]['start'][-2:] == roles[l].name[:2]):
                         await member.create_dm()
@@ -248,7 +275,7 @@ async def cadeiras(ctx):
     await member.dm_channel.send(url)
 
     channel = bot.get_channel(813909050923941938)
-    await channel.send(f"{member} não conseguiu autenticar-se :(")
+    await channel.send(f"{member.mention} não conseguiu autenticar-se :(")
 
     return
 
@@ -284,50 +311,111 @@ async def remove_cadeira(ctx, *args):
     await member.create_dm()
     await member.dm_channel.send(f'Verifica se escreveste bem o acrónimo da cadeira')
 
-@bot.command(name='test1', help='Comando de teste')
-async def test1(ctx):
-    print("oi")
 
-    #delete da mensagem e ir buscar o autor do comando
-    message = ctx.message
-    await message.delete(delay=None)
+########################################################################### Experimental ###################################################################################################
 
-    member = ctx.author   
-    users = session.query(discordUser).all()
-    print(member)
+# @bot.command(name='teste2', help='Este comando dá-te acesso aos canais das cadeiras nas quais estás inscrito.')
+# async def teste2(ctx):
+#     print("oi")
+
+#     #delete da mensagem e ir buscar o autor do comando
+#     message = ctx.message
+#     await message.delete(delay=None)
+
+#     member = ctx.author   
+#     users = session.query(discordUser).all()
+#     print(member)
   
-    for x in users:
+#     for x in users:
+#         if(str(x.discordUsername) == str(member)):
+#             print("Estás na base de dados")
+
+#             #verificar se já existe este discordUsername já tem codigos de acesso na Database
+#             if x.access_token != None:
+#                 print('tens tokens')
+#                 #ou seja, se já tiver criado o seu user do fénix, tenho que usar esses códigos para criar novo objeto user
+
+#                 r = requests.post(f'https://fenix.tecnico.ulisboa.pt/oauth/refresh_token?client_id=1132965128044744&client_secret=UceVvflDH0knsARwostsUag1w/UqU5Y8LCKTs2u5aX1Zwa0BcLdSkPpapR7XxbYMyP2MCpZVJ2VKz3Ui1w4yGg==&refresh_token={x.refresh_token}&grant_type=refresh_token')
   
-        if(str(x.discordUsername) == str(member)):
-            print("Estás na base de dados")
+#                 res = json.loads(r.text)
+#                 user = User(res['access_token'], x.refresh_token, res['expires_in'])
 
-            #verificar se já existe este discordUsername já tem codigos de acesso na Database
-            if x.access_token != None:
-                print('tens tokens')
-                #ou seja, se já tiver criado o seu user do fénix, tenho que usar esses códigos para criar novo objeto user
+#                 x.access_token = res['access_token']
+#                 x.token_expires = res['expires_in']
+#                 session.commit()
 
-                r = requests.post(f'https://fenix.tecnico.ulisboa.pt/oauth/refresh_token?client_id=1132965128044744&client_secret=UceVvflDH0knsARwostsUag1w/UqU5Y8LCKTs2u5aX1Zwa0BcLdSkPpapR7XxbYMyP2MCpZVJ2VKz3Ui1w4yGg==&refresh_token={x.refresh_token}&grant_type=refresh_token')
-  
-                res = json.loads(r.text)
-                user = User(res['access_token'], x.refresh_token, res['expires_in'])
-
-                x.access_token = res['access_token']
-                x.token_expires = res['expires_in']
-                session.commit()
-
-                cadeiras = fenix_client.get_person_courses(user)
-                                         
-                for i in range(len(cadeiras['enrolments'])):
-                    print(cadeiras['enrolments'][i]['name'])
-                print("\n\n")
+#                 print(r)
+#                 print(user)
 
                 
-                # print(curriculum[0]['degree']['acronym'])
-                # if curriculum[0]['degree']['acronym'] == "MEEC":
-                #     print("ttooop")
-               
-                print("\nend")
-                return
+#                 # curriculum = fenix_client.get_person_curriculum(user)
+#                 # print(curriculum)
+#                 # print("\n\n")
+#                 cadeiras = fenix_client.get_person_courses(user)
+#                 print(cadeiras)
+#                 print("\n\n")
+
+#                 for i in range(len(cadeiras['attending'])):
+#                     print(cadeiras['attending'][i]['name'])
+
+#                 person = fenix_client.get_person(user)
+#                 print(person)
+#                 print("\n\n")
+#                 aulas = fenix_client.get_person_classes(user)
+#                 print(aulas)
+#                 print("\n\n")
+#                 avaliacoes = fenix_client.get_person_evaluations_calendar(user)
+#                 print(avaliacoes)
+#                 print("\n\n")   
+#                 print("end")
+
+@bot.command()
+async def test1(ctx):
+
+    #delete da mensagem
+    message = ctx.message
+    await message.delete(delay=None)
+    
+
+    guild = ctx.guild
+    print(guild)
+    users = session.query(discordUser).all()
+    # members = message.guild.members
+    for member in guild.members:
+        print(member)
+        for x in users:
+            if(str(x.discordUsername) == str(member)):
+                #verificar se já existe este discordUsername já tem codigos de acesso na Database
+                if x.access_token != None:
+                    print(f'{member} tem tokens')
+                    # #ou seja, se já tiver criado o seu user do fénix, tenho que usar esses códigos para criar novo objeto user
+
+                    # r = requests.post(f'https://fenix.tecnico.ulisboa.pt/oauth/refresh_token?client_id=1132965128044744&client_secret=UceVvflDH0knsARwostsUag1w/UqU5Y8LCKTs2u5aX1Zwa0BcLdSkPpapR7XxbYMyP2MCpZVJ2VKz3Ui1w4yGg==&refresh_token={x.refresh_token}&grant_type=refresh_token')
+    
+                    # res = json.loads(r.text)
+                    # user = User(res['access_token'], x.refresh_token, res['expires_in'])
+
+                    # x.access_token = res['access_token']
+                    # x.token_expires = res['expires_in']
+                    # session.commit()
+
+                    # cadeiras = fenix_client.get_person_courses(user)
+                                            
+                    # for i in range(len(cadeiras['enrolments'])):
+                    #     print(cadeiras['enrolments'][i]['name'])
+                    # print("\n\n")
+
+                    
+                    # # print(curriculum[0]['degree']['acronym'])
+                    # # if curriculum[0]['degree']['acronym'] == "MEEC":
+                    # #     print("ttooop")
+                
+                    # print("\nend")
+                    # return
+                else:
+                    print(f"{member} está na db, mas não tem tokens de acesso\n")
+    print("end")
+
 
 
 
