@@ -56,7 +56,7 @@ async def on_member_join(member):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send('You do not have the correct role for this command.')
+        await ctx.send('Não tens o cargo necessário para usar este comando.')
 
 
 
@@ -450,13 +450,6 @@ async def escreve(ctx):
     
     f.write(f"\n\nTotal de alunos com o role de AComp: {acomp_students}")
     print(acomp_students)
-            
-
-
-@bot.event
-async def on_command_error(ctx, error):
-    if isinstance(error, commands.errors.CheckFailure):
-        await ctx.send('Não tens o cargo necessário para usar este comando.')
 
 
 
