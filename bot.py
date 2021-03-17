@@ -365,7 +365,8 @@ async def remove_cadeira(ctx, *args):
 #                 print("end")
 
 @bot.command()
-async def test1(ctx):
+@commands.has_role('EITT')
+async def auth(ctx):
     print("lets start")
 
     #delete da mensagem
@@ -452,7 +453,10 @@ async def escreve(ctx):
             
 
 
-
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.errors.CheckFailure):
+        await ctx.send('Não tens o cargo necessário para usar este comando.')
 
 
 
