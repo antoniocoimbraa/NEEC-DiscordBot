@@ -21,21 +21,16 @@ session = Session()
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-#print(TOKEN)
+
 GUILD = os.getenv('DISCORD_GUILD')
-#GUILD = os.getenv('CLIENT_SECRET')
-
-
-
-intents = discord.Intents(messages=True, members=True)
-client = commands.Bot(command_prefix=commands.when_mentioned_or('!'), intents=intents)
 
 
 config = fenixedu.FenixEduConfiguration.fromConfigFile()
 fenix_client = fenixedu.FenixEduClient(config)
 
-# bot = commands.Bot(command_prefix='!', intents=intents)
-bot = commands.Bot(command_prefix='!')
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(intents=intents, command_prefix='!')
 
 id_cadeiras = dict()
 
@@ -45,7 +40,7 @@ async def on_ready():
     print(f'{bot.user} conectou-se ao Discord!')
 
     meec_server = bot.get_guild(705045833451700254)
-    print(meec_server)
+    print(f'Estou aqui no {meec_server}')
 
 
 @bot.event
@@ -371,50 +366,95 @@ async def remove_cadeira(ctx, *args):
 
 @bot.command()
 async def test1(ctx):
+    print("lets start")
 
     #delete da mensagem
     message = ctx.message
     await message.delete(delay=None)
-    
 
     guild = ctx.guild
-    print(guild)
+
     users = session.query(discordUser).all()
     # members = message.guild.members
-    for member in guild.members:
-        print(member)
+
+    total_de_membros = 0
+    async for member in guild.fetch_members(limit=None):
+        total_de_membros += 1
+    print(total_de_membros)
+
+
+    members_with_code = 0
+    members_with_no_code = 0
+    async for member in guild.fetch_members(limit=None):
+        #print(member)
         for x in users:
             if(str(x.discordUsername) == str(member)):
                 #verificar se já existe este discordUsername já tem codigos de acesso na Database
                 if x.access_token != None:
                     print(f'{member} tem tokens')
-                    # #ou seja, se já tiver criado o seu user do fénix, tenho que usar esses códigos para criar novo objeto user
+                    members_with_code += 1
 
-                    # r = requests.post(f'https://fenix.tecnico.ulisboa.pt/oauth/refresh_token?client_id=1132965128044744&client_secret=UceVvflDH0knsARwostsUag1w/UqU5Y8LCKTs2u5aX1Zwa0BcLdSkPpapR7XxbYMyP2MCpZVJ2VKz3Ui1w4yGg==&refresh_token={x.refresh_token}&grant_type=refresh_token')
+    async for member in guild.fetch_members(limit=None):
+        #print(member)
+        for x in users:
+            if(str(x.discordUsername) == str(member)):
+                #verificar se já existe este discordUsername já tem codigos de acesso na Database
+                if x.access_token == None:
+                    print(f'{member} não tem códigos de acesso na db')
+                    members_with_no_code += 1
     
-                    # res = json.loads(r.text)
-                    # user = User(res['access_token'], x.refresh_token, res['expires_in'])
+    novo_membro = 0
+    role = discord.utils.find(lambda r: r.name == "NovoMembro", guild.roles)
+    async for member in guild.fetch_members(limit=None):
+        if role in member.roles:
+            print(f'{member} é NovoMembro')
+            novo_membro += 1
+            
 
-                    # x.access_token = res['access_token']
-                    # x.token_expires = res['expires_in']
-                    # session.commit()
 
-                    # cadeiras = fenix_client.get_person_courses(user)
-                                            
-                    # for i in range(len(cadeiras['enrolments'])):
-                    #     print(cadeiras['enrolments'][i]['name'])
-                    # print("\n\n")
-
-                    
-                    # # print(curriculum[0]['degree']['acronym'])
-                    # # if curriculum[0]['degree']['acronym'] == "MEEC":
-                    # #     print("ttooop")
-                
-                    # print("\nend")
-                    # return
-                else:
-                    print(f"{member} está na db, mas não tem tokens de acesso\n")
+    print(f"Membros com códigos de acesso: {members_with_code}")  
+    print(f"Membros sem códigos de acesso: {members_with_no_code}")
+    total = members_with_code + members_with_no_code
+    print(f"Total de membros na Database: {total}") 
+    # Total global = este total + número de NewMembers
+    total_global =  total + novo_membro
+    print(f"Total global de membros: {total_global}")
+         
     print("end")
+
+@bot.command()
+async def escreve(ctx):
+    print("lets start")
+
+    #delete da mensagem
+    message = ctx.message
+    await message.delete(delay=None)
+
+    guild = ctx.guild
+
+    acomp_students = 0
+    role = discord.utils.find(lambda r: r.name == "AComp", guild.roles)
+    f = open("alunos_de_acomp.txt", "w")
+    f.write(f"Lista de alunos com o role de AComp:\n\n")
+    async for member in guild.fetch_members(limit=None):
+        if role in member.roles:
+            if member.nick != None:
+                print(member.nick)
+                acomp_students += 1
+                f.write(f"{member.nick}\n")
+            else:
+                print(str(member)[:-5])
+                acomp_students += 1
+                f.write(f"{str(member)[:-5]}\n")
+    
+    f.write(f"\n\nTotal de alunos com o role de AComp: {acomp_students}")
+    print(acomp_students)
+            
+
+
+
+
+
 
 
 
